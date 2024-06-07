@@ -1,0 +1,60 @@
+名称: Cloud189Checkin
+
+在：
+  推：
+    分支：[ master ]
+  拉取请求：
+    分支：[ master ]
+  日程：
+    -计划任务：0 2,14 * * *
+
+工作：
+  报到：
+    运行于： ubuntu-latest
+
+    脚步：
+    -用途： actions/checkout@v2
+
+    -名称：安装 Python
+      运行：|
+        sudo apt 更新 && \
+        sudo apt 安装 python3
+      
+    -名称：要求
+      运行：|
+        pip3 安装 -r 要求.txt
+        
+    -姓名：入住
+      运行：|
+        用户='${{ secrets.USER }}'
+        pwd='${{ secrets.PWD }}'
+        
+        用户列表=()
+        密码列表=()
+
+        IFS=","
+
+        为您在 ${user[*]}
+        做
+        用户列表[${#用户列表[*]}]=${u}
+        完毕
+
+        对于 ${pwd[*]} 中的 p
+        做
+        密码列表[${#密码列表[*]}]=${p}
+        完毕
+
+        用户编号=${#用户列表[*]}
+        pwd_num=${#pwd_list[*]}
+
+        如果 [ $user_num != $pwd_num ];那么
+        echo "账号和密码不正确"
+        出口 1
+        别的
+        echo "共有$user_num 个账号，即将开始签到"
+        菲
+
+        对于（（i = 0；i <$user_num；i ++））
+        做
+        python3 checkin.py --用户名${user_list[$i]} --密码${pwd_list[$i]}
+        完毕
